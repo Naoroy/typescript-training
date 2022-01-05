@@ -1,5 +1,7 @@
 import { Router } from "express"
 import { asyncMiddleware } from "./asyncMiddleware"
+import { INJECTION_METATDATA_KEY } from "../decorators/inject"
+import { dependencyService } from "./dependencyService"
 
 type HttpVerb = "get"
 
@@ -17,19 +19,19 @@ interface ActionInformation {
 }
 
 class RouteCollection {
-    private controllerInformation: ControllerInformation[]
-    private actionInformation: ActionInformation[]
+    private controllerInformations: ControllerInformation[]
+    private actionInformations: ActionInformation[]
 
     constructor() {
-        this.controllerInformation = []
-        this.actionInformation = []
+        this.controllerInformations = []
+        this.actionInformations = []
     }
 
     registerController(
         ctor: new (...args: any[]) => any,
         prefix: string
     ) {
-        this.controllerInformation.push({
+        this.controllerInformations.push({
             controllerName: ctor.name,
             ctor,
             prefix
@@ -42,7 +44,7 @@ class RouteCollection {
         httpVerb: HttpVerb,
         path?: string
     ) {
-        this.actionInformation.push({
+        this.actionInformations.push({
             controllerName,
             methodName,
             httpVerb,
@@ -51,10 +53,25 @@ class RouteCollection {
     }
 
     setupRouter(router: Router) {
-        this.controllerInformation.forEach(c => {
-            const controller = new c.ctor()
+        this.controllerInformations.forEach(c => {
+            const injections = Reflect.getOwnMetadata(
+                INJECTION_METATDATA_KEY,
+                c.ctor
+            )
 
-            const actions = this.actionInformation
+            const dependencies: unknown[] = []
+            Object
+                .keys(injections)
+                .map(k => parseInt(k, 10))
+                .sort((a, b) => (a < b ? -1 : 1))
+                .forEach((key) => {
+                    dependencies
+                        .push(dependencyService.resolve(injections[key]))
+                })
+
+            const controller = new c.ctor(...dependencies)
+
+            const actions = this.actionInformations
                 .filter(a => a.controllerName === c.controllerName)
 
             actions.forEach(a => {

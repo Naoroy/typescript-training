@@ -1,7 +1,10 @@
+import { Keys } from "../../keys"
+import { Dependency } from "../../decorators/dependency"
 import { Employee } from "../types/employee"
 import { AbstractRepository } from "./abstractRepository"
 import { QueryType } from "./queryType"
 
+@Dependency(Keys.employeeRepository)
 class EmployeeRepository extends AbstractRepository<Employee> {
     constructor() {
         super()
