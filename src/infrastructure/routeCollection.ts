@@ -1,8 +1,7 @@
-import { Router } from "express
+import { Router } from "express"
 
 type HttpVerb = "get" | "post"
 type ctor = new (...args: any[]) => any
-
 
 interface ControllerInformation {
     controllerName: string
@@ -16,6 +15,7 @@ interface ActionInformation {
     httpVerb: HttpVerb
     path: string
 }
+
 
 class RouteCollection {
     private controllerInformations: ControllerInformation[]
@@ -63,5 +63,6 @@ class RouteCollection {
         })
     }
 }
+const routeCollection = new RouteCollection()
 
-export default new RouteCollection()
+export { routeCollection, HttpVerb }
