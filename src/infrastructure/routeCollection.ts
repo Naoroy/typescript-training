@@ -1,6 +1,6 @@
 import { Router } from "express"
 import { asyncMiddleware } from "./asyncMiddleware"
-import { INJECTION_METATDATA_KEY } from "../decorators/inject"
+import { INJECTION_METADATA_KEY } from "../decorators/inject"
 import { dependencyService } from "./dependencyService"
 
 type HttpVerb = "get"
@@ -55,7 +55,7 @@ class RouteCollection {
     setupRouter(router: Router) {
         this.controllerInformations.forEach(c => {
             const injections = Reflect.getOwnMetadata(
-                INJECTION_METATDATA_KEY,
+                INJECTION_METADATA_KEY,
                 c.ctor
             )
 
