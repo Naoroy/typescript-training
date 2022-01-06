@@ -24,4 +24,4 @@ class DependencyService {
 }
 
 const dependencyService = new DependencyService()
-export { dependencyService}
+export { dependencyService }

@@ -4,9 +4,11 @@ import { config } from "dotenv"
 import { routeCollection } from "./infrastructure/routeCollection"
 import "./models/repositories/employeeRepository"
 import "./controllers/employeeController"
+import "./controllers/teamController"
 import bodyParser from "body-parser"
 import morgan from "morgan"
 import cors from "cors"
+
 
 config()
 
