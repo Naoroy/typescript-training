@@ -19,7 +19,7 @@ class TeamRepositoryImpl extends AbstractRepository<Team> implements TeamReposit
             QueryType.GetAll,
             `SELECT
                 t.Id,
-                t.Name,
+                t.Name
             FROM Team as t`
         )
     }
