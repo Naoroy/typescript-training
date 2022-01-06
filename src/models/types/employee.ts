@@ -1,8 +1,8 @@
 import { Entity } from "../types/entity"
 
 interface Employee extends Entity {
-    firstname: string
-    lastname: string
+    firstName: string
+    lastName: string
     email: string
     teamId?: number
 }

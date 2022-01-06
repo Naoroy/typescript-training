@@ -83,6 +83,39 @@ abstract class AbstractRepository <T extends Entity> implements Repository<T> {
         await this.close()
         return entities
     }
+
+    protected query(sql: string, params: any[]): Promise<any> {
+        return new Promise<T>((resolve, reject) => {
+            this.database.get(sql, params, (err, row) => {
+                if(err) {
+                    reject(err)
+                } else {
+                    resolve(row)
+                }
+            })
+        })
+    }
+
+    protected run(sql: string, params: any) {
+        return new Promise<void>((resolve, reject) => {
+            this.database.run(sql, params, err => {
+                if(err) {
+                    reject(err)
+                } else {
+                    resolve()
+                }
+            })
+        })
+    }
+
+    async insert(entity: T): Promise<void> {
+        const query = this.getQuery(QueryType.Insert)
+        const parameters = this.getParams(entity)
+
+        await this.open()
+        await this.run(query, parameters)
+        await this.close()
+    }
 }
 
 export { AbstractRepository }

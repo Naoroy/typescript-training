@@ -1,9 +1,9 @@
 import { Router } from "express"
 import { asyncMiddleware } from "./asyncMiddleware"
-import { INJECTION_METADATA_KEY } from "../decorators/inject"
+import { INJECTION_METADATA_KEY } from "./../decorators/inject"
 import { dependencyService } from "./dependencyService"
 
-type HttpVerb = "get"
+type HttpVerb = "get" | "post"
 
 interface ControllerInformation {
     controllerName: string

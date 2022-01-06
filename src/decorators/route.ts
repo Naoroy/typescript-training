@@ -21,4 +21,8 @@ const Get = (path?: string) => {
     return action("get", path)
 }
 
-export { Get }
+const Post = (path?: string) => {
+    return action("post", path)
+}
+
+export { Get, Post }

@@ -1,5 +1,6 @@
 enum QueryType {
-    GetAll
+    GetAll,
+    Insert
 }
 
 export { QueryType }
