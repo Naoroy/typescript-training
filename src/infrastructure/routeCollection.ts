@@ -3,7 +3,7 @@ import { asyncMiddleware } from "./asyncMiddleware"
 import { INJECTION_METADATA_KEY } from "./../decorators/inject"
 import { dependencyService } from "./dependencyService"
 
-type HttpVerb = "get" | "post"
+type HttpVerb = "get" | "post" | "patch"
 
 interface ControllerInformation {
     controllerName: string

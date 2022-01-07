@@ -7,7 +7,8 @@ import { Repository } from "./repository"
 
 
 interface EmployeeRepository extends Repository<Employee> {
-    exists(email: String): Promise<boolean>
+    exists(email: String): Promise<boolean>,
+    changeTeam(employeeId: number, teamId: number): Promise<void>
 }
 
 @Dependency(Keys.employeeRepository)
@@ -35,6 +36,18 @@ class EmployeeRepositoryImpl extends AbstractRepository<Employee> implements Emp
             )
             VALUES(?, ?, ?, ?)
         `)
+    }
+
+    async changeTeam(employeeId: number, teamId: number): Promise<void> {
+        const query = `
+        UPDATE Employee
+        SET TeamId = ?
+        WHERE Id = ?
+        `
+
+        await this.open()
+        await this.run(query, [teamId, employeeId])
+        await this.close()
     }
 
     getParams(entity: Employee): any[] {

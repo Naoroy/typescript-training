@@ -25,4 +25,8 @@ const Post = (path?: string) => {
     return action("post", path)
 }
 
-export { Get, Post }
+const Patch = (path?: string) => {
+    return action("patch", path)
+}
+
+export { Get, Post, Patch }
